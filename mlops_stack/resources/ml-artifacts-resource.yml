@@ -1,24 +1,24 @@
 # Deployment target specific values
 targets:
-  dev:
+  leahey_mlops_dev:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  test:
+  leahey_mlops_test:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  staging:
+  leahey_mlops_staging:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  prod:
+  leahey_mlops_prod:
     resources:
       registered_models:
         model:
