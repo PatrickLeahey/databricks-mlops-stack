@@ -1,24 +1,24 @@
 # Deployment target specific values
 targets:
-  leahey_mlops_dev:
+  leahey_dev:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  leahey_mlops_test:
+  leahey_test:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  leahey_mlops_staging:
+  leahey_staging:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "mlops-stack" ML Project for ${bundle.target} deployment target.
 
-  leahey_mlops_prod:
+  leahey_prod:
     resources:
       registered_models:
         model:
@@ -49,7 +49,7 @@ resources:
       model:
         name: ${var.model_name}
         catalog_name: ${bundle.target}
-        schema_name: leahey_mlops     
+        schema_name: mlops_stack     
         <<: *grants
         depends_on:
           - resources.jobs.model_training_job.id
