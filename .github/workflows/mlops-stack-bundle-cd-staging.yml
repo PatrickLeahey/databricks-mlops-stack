@@ -27,8 +27,8 @@ jobs:
       - name: Validate Bundle For Staging
         id: validate
         run: |
-          databricks bundle validate -t leahey_staging
+          databricks bundle validate -t mlops_demo_staging
       - name: Deploy Bundle to Staging
         id: deploy
         run: |
-          databricks bundle deploy -t leahey_staging
+          databricks bundle deploy -t mlops_demo_staging
