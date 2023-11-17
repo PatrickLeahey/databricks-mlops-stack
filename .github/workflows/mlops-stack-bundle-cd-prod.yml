@@ -27,8 +27,8 @@ jobs:
       - name: Validate Bundle For Prod
         id: validate
         run: |
-          databricks bundle validate -t leahey_mlops_prod
+          databricks bundle validate -t mlops_demo_prod
       - name: Deploy Bundle to Prod
         id: deploy
         run: |
-          databricks bundle deploy -t leahey_mlops_prod
+          databricks bundle deploy -t mlops_demo_prod

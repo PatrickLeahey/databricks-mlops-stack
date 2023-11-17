@@ -18,21 +18,21 @@ include:
 
 # Deployment Target specific values for workspace
 targets:
-  leahey_mlops_dev:
+  mlops_demo_dev:
     default: true
     workspace:
       # TODO: add dev workspace URL
       host:
 
-  leahey_mlops_staging:
+  mlops_demo_staging:
     workspace:
       host: https://e2-demo-field-eng.cloud.databricks.com
 
-  leahey_mlops_prod:
+  mlops_demo_prod:
     workspace:
       host: https://e2-demo-field-eng.cloud.databricks.com
 
-  leahey_mlops_test:
+  mlops_demo_test:
     workspace:
       host: https://e2-demo-field-eng.cloud.databricks.com
 
