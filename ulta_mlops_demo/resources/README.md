@@ -63,7 +63,7 @@ Upon merging code into the release branch, the release branch content will be de
 To set up the databricks CLI using a Databricks personal access token, take the following steps:
 
 1. Follow [databricks CLI](https://learn.microsoft.com/azure/databricks/dev-tools/cli/databricks-cli) to download and set up the databricks CLI locally.
-2. Complete the `TODO` in `ulta_mlops_demo/databricks.yml` to add the dev workspace URI under `targets.dev.workspace.host`.
+2. Complete the `TODO` in `ulta_mlops_demo/databricks.yml` to add the dev workspace URI under `targets.ulta_mlops_demo_devworkspace.host`.
 3. [Create a personal access token](https://learn.microsoft.com/azure/databricks/dev-tools/auth#personal-access-tokens-for-users)
   in your dev workspace and copy it.
 4. Set an env variable `DATABRICKS_TOKEN` with your Databricks personal access token in your terminal. For example, run `export DATABRICKS_TOKEN=dapi12345` if the access token is dapi12345.
@@ -180,7 +180,7 @@ variables:
     default: input_table
 
 targets:
-  dev:
+  ulta_mlops_demo_dev:
     variables:
       batch_inference_input_table: dev_table
   test:

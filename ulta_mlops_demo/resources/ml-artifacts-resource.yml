@@ -1,6 +1,6 @@
 # Deployment target specific values
 targets:
-  dev:
+  ulta_mlops_demo_dev:
     resources:
       registered_models:
         model:
