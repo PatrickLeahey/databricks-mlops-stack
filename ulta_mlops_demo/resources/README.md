@@ -180,7 +180,7 @@ variables:
     default: input_table
 
 targets:
-  ulta_mlops_demo_dev
+  ulta_mlops_demo_dev:
     variables:
       batch_inference_input_table: dev_table
   test:
