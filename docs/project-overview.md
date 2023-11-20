@@ -18,21 +18,25 @@ This project contains the following components:
 | Component                  | Description                                                                                                                                                                                                                                                                                                                                             |
 |----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ML Code                    | Example ML project code, with unit tested Python modules and notebooks                                                                                                                                                                                                                                                                                  |
-| ML Resource Config as Code | ML pipeline resource config (training and batch inference job schedules, etc) configured and deployed through [databricks CLI bundles](https://docs.databricks.com/dev-tools/cli/bundle-cli.html)                                                                                              |
+| ML Resource Config as Code | ML pipeline resource config (training and batch inference job schedules, etc) configured and deployed through [databricks CLI bundles](https://learn.microsoft.com/azure/databricks/dev-tools/cli/bundle-cli)                                                                                              |
 | CI/CD                      | [GitHub Actions](https://github.com/actions) workflows to test and deploy ML code and resources       |
 
 contained in the following files:
 
 ```
-mlops-stack        <- Root directory. Both monorepo and polyrepo are supported.
+ulta_mlops_demo        <- Root directory. Both monorepo and polyrepo are supported.
 │
-├── mlops_stack       <- Contains python code, notebooks and ML resources related to one ML project. 
+├── ulta_mlops_demo       <- Contains python code, notebooks and ML resources related to one ML project. 
 │   │
 │   ├── requirements.txt        <- Specifies Python dependencies for ML code (for example: model training, batch inference).
 │   │
 │   ├── databricks.yml          <- databricks.yml is the root ML resource config file for the ML project that can be loaded by databricks CLI bundles. It defines the bundle name, workspace URL and resource config component to be included.
 │   │
-│   ├── training                <- Training folder contains Notebook that trains and registers the model.
+│   ├── training                <- Training folder contains Notebook that trains and registers the model with feature store support.
+│   │
+│   ├── feature_engineering     <- Feature computation code (Python modules) that implements the feature transforms.
+│   │                              The output of these transforms get persisted as Feature Store tables. Most development
+│   │                              work happens here.
 │   │
 │   ├── validation              <- Optional model validation step before deploying a model.
 │   │
@@ -52,6 +56,8 @@ mlops-stack        <- Root directory. Both monorepo and polyrepo are supported.
 │       ├── model-workflow-resource.yml                <- ML resource config definition for model training, validation, deployment workflow
 │       │
 │       ├── batch-inference-workflow-resource.yml      <- ML resource config definition for batch inference workflow
+│       │
+│       ├── feature-engineering-workflow-resource.yml  <- ML resource config definition for feature engineering workflow
 │       │
 │       ├── ml-artifacts-resource.yml                  <- ML resource config definition for model and experiment
 │       │

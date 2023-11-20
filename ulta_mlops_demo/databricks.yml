@@ -1,0 +1,37 @@
+# The name of the bundle. run `databricks bundle schema` to see the full bundle settings schema.
+bundle:
+  name: ulta_mlops_demo
+
+variables:
+  experiment_name:
+    description: Experiment name for the model training.
+    default: /Users/${workspace.current_user.userName}/${bundle.target}-ulta_mlops_demo-experiment
+  model_name:
+    description: Model name for the model training.
+    default: ulta_mlops_demo-model
+
+include:
+  # Resources folder contains ML artifact resources for the ml project that defines model and experiment
+  # And workflows resources for the ml project including model training -> validation -> deployment,
+  # feature engineerng,  batch inference, data monitoring, metric refresh, alerts and triggering retraining
+  - ./resources/*.yml
+
+# Deployment Target specific values for workspace
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
+  staging:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
+  prod:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
+  test:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
