@@ -18,20 +18,20 @@ include:
 
 # Deployment Target specific values for workspace
 targets:
-  dev:
+  ulta_mlops_demo_dev:
     default: true
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  staging:
+  ulta_mlops_demo_staging:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  prod:
+  ulta_mlops_demo_prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  test:
+  ulta_mlops_demo_test:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 

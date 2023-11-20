@@ -58,20 +58,20 @@ dbutils.widgets.text(
 )
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "dev.ulta_mlops_demo.ulta_mlops_demo-model", label="Full (Three-Level) Model Name"
+    "model_name", "ulta_mlops_demo_dev.ulta_mlops_demo.ulta_mlops_demo-model", label="Full (Three-Level) Model Name"
 )
 
 # Pickup features table name
 dbutils.widgets.text(
     "pickup_features_table",
-    "dev.ulta_mlops_demo.trip_pickup_features",
+    "ulta_mlops_demo_dev.ulta_mlops_demo.trip_pickup_features",
     label="Pickup Features Table",
 )
 
 # Dropoff features table name
 dbutils.widgets.text(
     "dropoff_features_table",
-    "dev.ulta_mlops_demo.trip_dropoff_features",
+    "ulta_mlops_demo_dev.ulta_mlops_demo.trip_dropoff_features",
     label="Dropoff Features Table",
 )
 
