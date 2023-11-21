@@ -13,7 +13,7 @@ defaults:
 
 env:
   STAGING_DATABRICKS_TOKEN: ${{ secrets.STAGING_DATABRICKS_TOKEN }}
-  PROD_DATBARICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
+  PROD_DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
 
 jobs:
   staging:
