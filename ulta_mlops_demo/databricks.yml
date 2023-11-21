@@ -30,8 +30,3 @@ targets:
   ulta_mlops_demo_prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
-
-  ulta_mlops_demo_test:
-    workspace:
-      host: https://adb-984752964297111.11.azuredatabricks.net
-
