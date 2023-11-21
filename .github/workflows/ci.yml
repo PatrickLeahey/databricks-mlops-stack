@@ -36,9 +36,9 @@ jobs:
   integration_tests:
     needs: unit_tests
     runs-on: ubuntu-22.04
-    env:
-      DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
     steps:
+      env:
+        DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
@@ -62,9 +62,9 @@ jobs:
   prod_validation:
     needs: integration_tests
     runs-on: ubuntu-22.04
-    env:
-      DATABRICKS_TOKEN: ${{ env.PROD_DATABRICKS_TOKEN }}
     steps:
+      env:
+        DATABRICKS_TOKEN: ${{ env.PROD_DATABRICKS_TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
