@@ -37,25 +37,31 @@ jobs:
     needs: unit_tests
     runs-on: ubuntu-22.04
     steps:
-      env:
-        DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
       - name: Validate
         id: validate
+        env:
+          DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
         run: |
           databricks bundle validate -t ulta_mlops_demo_staging
       - name: Deploy Staging
         id: deploy
+        env:
+          DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
         run: |
           databricks bundle deploy -t ulta_mlops_demo_staging
       - name: Run Feature Engineering Workflow
         id: feature_engineering
+        env:
+          DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
         run: |
           databricks bundle run write_feature_table_job -t ulta_mlops_demo_staging
       - name: Run Training Workflow
         id: training
+        env:
+          DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
         run: |
           databricks bundle run model_training_job -t ulta_mlops_demo_staging
 
@@ -63,12 +69,12 @@ jobs:
     needs: integration_tests
     runs-on: ubuntu-22.04
     steps:
-      env:
-        DATABRICKS_TOKEN: ${{ env.PROD_DATABRICKS_TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
       - name: Validate
         id: validate
+        env:
+          DATABRICKS_TOKEN: ${{ env.PROD_DATABRICKS_TOKEN }}
         run: |
           databricks bundle validate -t ulta_mlops_demo_staging    
