@@ -29,30 +29,7 @@ jobs:
         env:
           DATABRICKS_TOKEN: ${{ env.STAGING_DATABRICKS_TOKEN }}
         run: |
-          databricks bundle validate -t ulta_mlops_demo_staging > ../validate_output.txt
-      - name: Create Comment with Bundle Configuration
-        uses: actions/github-script@v6
-        id: comment
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const fileContents = fs.readFileSync('validate_output.txt', 'utf8');
-            const output = `#### Bundle Staging Config Validated 🖌
-            <details><summary>Staging Validation Output</summary>
-
-            \`\`\`\n
-            ${fileContents}
-            \`\`\`
-
-            </details>`
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+          databricks bundle validate -t ulta_mlops_demo_staging
 
   prod:
     concurrency: ulta_mlops_demo-prod-bundle-job
@@ -67,27 +44,4 @@ jobs:
         env:
           DATABRICKS_TOKEN: ${{ env.PROD_DATABRICKS_TOKEN }}
         run: |
-          databricks bundle validate -t ulta_mlops_demo_prod > ../validate_output.txt
-      - name: Create Comment with Bundle Configuration
-        uses: actions/github-script@v6
-        id: comment
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const fileContents = fs.readFileSync('validate_output.txt', 'utf8');
-            const output = `#### Bundle Prod Config Validated 🖌
-            <details><summary>Prod Validation Output</summary>
-
-            \`\`\`\n
-            ${fileContents}
-            \`\`\`
-
-            </details>`
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+          databricks bundle validate -t ulta_mlops_demo_prod
