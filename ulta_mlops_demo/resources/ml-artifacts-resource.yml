@@ -6,19 +6,13 @@ targets:
         model:
           comment: Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project for ${bundle.target} deployment target.
 
-  test:
+  ulta_mlops_demo_staging:
     resources:
       registered_models:
         model:
           comment: Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project for ${bundle.target} deployment target.
 
-  staging:
-    resources:
-      registered_models:
-        model:
-          comment: Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project for ${bundle.target} deployment target.
-
-  prod:
+  ulta_mlops_demo_prod:
     resources:
       registered_models:
         model:

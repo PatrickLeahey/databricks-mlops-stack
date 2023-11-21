@@ -2,7 +2,7 @@
 # defined under ulta_mlops_demo/resources/*
 # and ulta_mlops_demo/databricks.yml with prod deployment target configs,
 # when PRs are merged into the release branch
-name: Bundle Deployment for ulta_mlops_demo Prod
+name: CD
 
 on:
   push:
@@ -24,11 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: databricks/setup-cli@main
-      - name: Validate Bundle For Prod
+      - name: Validate
         id: validate
         run: |
           databricks bundle validate -t ulta_mlops_demo_prod
-      - name: Deploy Bundle to Prod
+      - name: Deploy
         id: deploy
         run: |
           databricks bundle deploy -t ulta_mlops_demo_prod

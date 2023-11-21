@@ -1,4 +1,4 @@
-name: Lint CI/CD workflow files
+name: Lint GA workflows
 on:
   pull_request:
     paths:
