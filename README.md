@@ -1,4 +1,4 @@
-# ulta_mlops_demo
+# Ulta MLOps Demo
 
 This directory contains an ML project based on the default
 [Databricks MLOps Stacks](https://github.com/databricks/mlops-stacks),
