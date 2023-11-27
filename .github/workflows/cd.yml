@@ -5,10 +5,8 @@
 name: CD
 
 on:
-  push:
-    branches:
-      - 'release'
   workflow_dispatch:
+  push:
     branches:
       - 'release'
 
