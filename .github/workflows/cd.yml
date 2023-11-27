@@ -9,6 +9,8 @@ on:
     branches:
       - 'release'
   workflow_dispatch:
+    branches:
+      - 'release'
 
 defaults:
   run:
