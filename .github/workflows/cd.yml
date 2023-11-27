@@ -35,8 +35,8 @@ jobs:
       - name: Run Feature Engineering Workflow
         id: feature_engineering
         run: |
-          databricks bundle run write_feature_table_job -t ulta_mlops_demo_staging
+          databricks bundle run write_feature_table_job -t ulta_mlops_demo_prod
       - name: Run Training Workflow
         id: training
         run: |
-          databricks bundle run model_training_job -t ulta_mlops_demo_staging
+          databricks bundle run model_training_job -t ulta_mlops_demo_prod
