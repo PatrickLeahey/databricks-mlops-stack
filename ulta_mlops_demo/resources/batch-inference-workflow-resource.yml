@@ -22,6 +22,9 @@ resources:
       schedule:
         quartz_cron_expression: "0 0 11 * * ?"
         timezone_id: UTC
+      permissions:
+        - level: CAN_VIEW
+          group_name: users
       email_notifications:
         on_failure:
           - patrick.leahey@databricks.com
