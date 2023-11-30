@@ -1,4 +1,3 @@
-# The name of the bundle. run `databricks bundle schema` to see the full bundle settings schema.
 bundle:
   name: ulta_mlops_demo
 
@@ -11,12 +10,8 @@ variables:
     default: ulta_mlops_demo-model
 
 include:
-  # Resources folder contains ML artifact resources for the ml project that defines model and experiment
-  # And workflows resources for the ml project including model training -> validation -> deployment,
-  # feature engineerng,  batch inference, data monitoring, metric refresh, alerts and triggering retraining
   - ./resources/*.yml
 
-# Deployment Target specific values for workspace
 targets:
   ulta_mlops_demo_dev:
     default: true
