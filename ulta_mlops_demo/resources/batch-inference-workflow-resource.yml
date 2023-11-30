@@ -34,4 +34,3 @@ resources:
       email_notifications:
         on_failure:
           - patrick.leahey@databricks.com
-      <<: *permissions
