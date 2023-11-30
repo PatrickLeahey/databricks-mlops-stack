@@ -21,7 +21,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      # Feature store tests bring up a local Spark session, so Java is required.
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'

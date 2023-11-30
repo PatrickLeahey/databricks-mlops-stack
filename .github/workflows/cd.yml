@@ -1,7 +1,3 @@
-# This GitHub workflow deploys Bundle resources (ML resource config and more)
-# defined under ulta_mlops_demo/resources/*
-# and ulta_mlops_demo/databricks.yml with prod deployment target configs,
-# when PRs are merged into the release branch
 name: CD
 
 on:
