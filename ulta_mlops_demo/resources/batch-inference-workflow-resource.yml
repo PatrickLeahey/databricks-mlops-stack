@@ -6,11 +6,6 @@ new_cluster: &new_cluster
     custom_tags:
       clusterSource: mlops-stack/0.2
 
-permissions: &permissions
-  permissions:
-    - level: CAN_VIEW
-      group_name: users
-
 resources:
   jobs:
     batch_inference_job:
@@ -31,7 +26,10 @@ resources:
       schedule:
         quartz_cron_expression: "0 0 11 * * ?" # daily at 11am
         timezone_id: UTC
+      permissions:
+        - level: CAN_VIEW
+          group_name: users
       email_notifications:
         on_failure:
           - patrick.leahey@databricks.com
-      <<: *permissions
+      
