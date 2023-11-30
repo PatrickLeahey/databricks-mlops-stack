@@ -6,11 +6,6 @@ new_cluster: &new_cluster
     custom_tags:
       clusterSource: mlops-stack/0.2
 
-permissions: &permissions
-  permissions:
-    - level: CAN_VIEW
-      group_name: users
-
 resources:
   jobs:
     batch_inference_job:
