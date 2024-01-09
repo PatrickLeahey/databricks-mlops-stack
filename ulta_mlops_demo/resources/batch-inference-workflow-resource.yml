@@ -20,7 +20,7 @@ resources:
               git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
 
       schedule:
-        quartz_cron_expression: "0 0 11 * * ?"
+        quartz_cron_expression: "0 0 10 * * ?"
         timezone_id: UTC
       permissions:
         - level: CAN_VIEW
