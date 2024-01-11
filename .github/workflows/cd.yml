@@ -8,14 +8,14 @@ on:
 
 defaults:
   run:
-    working-directory: ./ulta_mlops_demo
+    working-directory: ./mlops_demo
 
 env:
   DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
 
 jobs:
   prod:
-    concurrency: ulta_mlops_demo-prod-bundle-job
+    concurrency: mlops_demo-prod-bundle-job
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -23,16 +23,16 @@ jobs:
       - name: Validate
         id: validate
         run: |
-          databricks bundle validate -t ulta_mlops_demo_prod
+          databricks bundle validate -t mlops_demo_prod
       - name: Deploy
         id: deploy
         run: |
-          databricks bundle deploy -t ulta_mlops_demo_prod
+          databricks bundle deploy -t mlops_demo_prod
       - name: Run Feature Engineering Workflow
         id: feature_engineering
         run: |
-          databricks bundle run write_feature_table_job -t ulta_mlops_demo_prod
+          databricks bundle run write_feature_table_job -t mlops_demo_prod
       - name: Run Training Workflow
         id: training
         run: |
-          databricks bundle run model_training_job -t ulta_mlops_demo_prod
+          databricks bundle run model_training_job -t mlops_demo_prod

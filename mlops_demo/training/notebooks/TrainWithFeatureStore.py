@@ -4,7 +4,7 @@
 #
 # This notebook shows an example of a Model Training pipeline using Databricks Feature Store tables.
 # It is configured and can be executed as the "Train" task in the model_training_job workflow defined under
-# ``ulta_mlops_demo/resources/model-workflow-resource.yml``
+# ``mlops_demo/resources/model-workflow-resource.yml``
 #
 # Parameters:
 # * env (required):                 - Environment the notebook is run in (staging, or prod). Defaults to "staging".
@@ -53,25 +53,25 @@ dbutils.widgets.text(
 # MLflow experiment name.
 dbutils.widgets.text(
     "experiment_name",
-    f"/dev-ulta_mlops_demo-experiment",
+    f"/dev-mlops_demo-experiment",
     label="MLflow experiment name",
 )
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "ulta_mlops_demo_dev.ulta_mlops_demo.ulta_mlops_demo-model", label="Full (Three-Level) Model Name"
+    "model_name", "mlops_demo_dev.mlops_demo.mlops_demo-model", label="Full (Three-Level) Model Name"
 )
 
 # Pickup features table name
 dbutils.widgets.text(
     "pickup_features_table",
-    "ulta_mlops_demo_dev.ulta_mlops_demo.trip_pickup_features",
+    "mlops_demo_dev.mlops_demo.trip_pickup_features",
     label="Pickup Features Table",
 )
 
 # Dropoff features table name
 dbutils.widgets.text(
     "dropoff_features_table",
-    "ulta_mlops_demo_dev.ulta_mlops_demo.trip_dropoff_features",
+    "mlops_demo_dev.mlops_demo.trip_dropoff_features",
     label="Dropoff Features Table",
 )
 

@@ -1,22 +1,22 @@
 targets:
-  ulta_mlops_demo_dev:
+  mlops_demo_dev:
     resources:
       registered_models:
         model:
-          comment: Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project for ${bundle.target} deployment target.
+          comment: Registered model in Unity Catalog for the "mlops_demo" ML Project for ${bundle.target} deployment target.
 
-  ulta_mlops_demo_staging:
+  mlops_demo_staging:
     resources:
       registered_models:
         model:
-          comment: Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project for ${bundle.target} deployment target.
+          comment: Registered model in Unity Catalog for the "mlops_demo" ML Project for ${bundle.target} deployment target.
 
-  ulta_mlops_demo_prod:
+  mlops_demo_prod:
     resources:
       registered_models:
         model:
           comment: |
-            Registered model in Unity Catalog for the "ulta_mlops_demo" ML Project. See the corresponding [Git repo]($#{var.git_repo_url}) for details on the project.
+            Registered model in Unity Catalog for the "mlops_demo" ML Project. See the corresponding [Git repo]($#{var.git_repo_url}) for details on the project.
             
             Links:
               * [Recurring model training job](https://adb-984752964297111.11.azuredatabricks.net#job/${resources.jobs.model_training_job.id}): trains fresh model versions using the latest ML code.
@@ -27,7 +27,7 @@ resources:
       model:
         name: ${var.model_name}
         catalog_name: ${bundle.target}
-        schema_name: ulta_mlops_demo     
+        schema_name: mlops_demo     
         grants:
           - privileges:
               - EXECUTE
@@ -42,4 +42,4 @@ resources:
       permissions:
         - level: CAN_READ
           group_name: users
-      description: MLflow Experiment used to track runs for ulta_mlops_demo project.
+      description: MLflow Experiment used to track runs for mlops_demo project.

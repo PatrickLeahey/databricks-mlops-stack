@@ -1,7 +1,7 @@
 resources:
   jobs:
     write_feature_table_job:
-      name: ${bundle.target}-ulta_mlops_demo-write-feature-table-job
+      name: ${bundle.target}-mlops_demo-write-feature-table-job
       job_clusters:
         - job_cluster_key: write_feature_table_job_cluster
           new_cluster:
@@ -20,7 +20,7 @@ resources:
               input_start_date: ""
               input_end_date: ""
               timestamp_column: tpep_pickup_datetime
-              output_table_name: ${bundle.target}.ulta_mlops_demo.trip_pickup_features
+              output_table_name: ${bundle.target}.mlops_demo.trip_pickup_features
               features_transform_module: pickup_features
               primary_keys: zip
               git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
@@ -33,7 +33,7 @@ resources:
               input_start_date: ""
               input_end_date: ""
               timestamp_column: tpep_dropoff_datetime
-              output_table_name: ${bundle.target}.ulta_mlops_demo.trip_dropoff_features
+              output_table_name: ${bundle.target}.mlops_demo.trip_dropoff_features
               features_transform_module: dropoff_features
               primary_keys: zip
               git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}

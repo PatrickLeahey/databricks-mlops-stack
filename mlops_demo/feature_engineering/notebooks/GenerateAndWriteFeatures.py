@@ -4,7 +4,7 @@
 #
 # This notebook can be used to generate and write features to a Databricks Feature Store table.
 # It is configured and can be executed as the tasks in the write_feature_table_job workflow defined under
-# ``ulta_mlops_demo/resources/feature-engineering-workflow-resource.yml``
+# ``mlops_demo/resources/feature-engineering-workflow-resource.yml``
 #
 # Parameters:
 #
@@ -45,7 +45,7 @@ dbutils.widgets.text(
 # Feature table to store the computed features.
 dbutils.widgets.text(
     "output_table_name",
-    "ulta_mlops_demo_dev.ulta_mlops_demo.trip_pickup_features",
+    "mlops_demo_dev.mlops_demo.trip_pickup_features",
     label="Output Feature Table Name",
 )
 

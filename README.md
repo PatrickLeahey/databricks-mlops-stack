@@ -1,1 +1,1 @@
-# Ulta MLOps Demo
+# MLOps Demo

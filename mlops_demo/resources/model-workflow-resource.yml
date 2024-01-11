@@ -1,7 +1,7 @@
 resources:
   jobs:
     model_training_job:
-      name: ${bundle.target}-ulta_mlops_demo-model-training-job
+      name: ${bundle.target}-mlops_demo-model-training-job
       job_clusters:
         - job_cluster_key: model_training_job_cluster
           new_cluster:
@@ -19,9 +19,9 @@ resources:
               env: ${bundle.target}
               training_data_path: /databricks-datasets/nyctaxi-with-zipcodes/subsampled
               experiment_name: ${var.experiment_name}
-              model_name: ${bundle.target}.ulta_mlops_demo.${var.model_name}
-              pickup_features_table: ${bundle.target}.ulta_mlops_demo.trip_pickup_features
-              dropoff_features_table: ${bundle.target}.ulta_mlops_demo.trip_dropoff_features
+              model_name: ${bundle.target}.mlops_demo.${var.model_name}
+              pickup_features_table: ${bundle.target}.mlops_demo.trip_pickup_features
+              dropoff_features_table: ${bundle.target}.mlops_demo.trip_dropoff_features
               git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
         - task_key: ModelValidation
           job_cluster_key: model_training_job_cluster

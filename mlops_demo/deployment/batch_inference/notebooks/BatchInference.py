@@ -4,7 +4,7 @@
 #
 # This notebook is an example of applying a model for batch inference against an input delta table,
 # It is configured and can be executed as the batch_inference_job in the batch_inference_job workflow defined under
-# ``ulta_mlops_demo/resources/batch-inference-workflow-resource.yml``
+# ``mlops_demo/resources/batch-inference-workflow-resource.yml``
 #
 # Parameters:
 #
@@ -28,7 +28,7 @@ dbutils.widgets.text("input_table_name", "", label="Input Table Name")
 dbutils.widgets.text("output_table_name", "", label="Output Table Name")
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "ulta_mlops_demo_dev.ulta_mlops_demo-model", label="Full (Three-Level) Model Name"
+    "model_name", "mlops_demo_dev.mlops_demo-model", label="Full (Three-Level) Model Name"
 )
 
 # COMMAND ----------
