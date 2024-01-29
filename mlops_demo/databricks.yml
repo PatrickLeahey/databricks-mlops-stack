@@ -13,15 +13,15 @@ include:
   - ./resources/*.yml
 
 targets:
-  mlops_demo_dev:
+  pl_mlops_demo_dev:
     default: true
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  mlops_demo_staging:
+  pl_mlops_demo_test:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  mlops_demo_prod:
+  pl_mlops_demo_prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
