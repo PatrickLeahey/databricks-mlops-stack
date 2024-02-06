@@ -288,8 +288,7 @@ def train_final_model (hyperopt_params):
 
 # COMMAND ----------
 
-username = dbutils.notebook.entry_point.getDbutils().notebook().getContext().userName().get()
-mlflow.set_experiment(f'/Users/{username}/propensity/{experiment_name}')
+mlflow.set_experiment(experiment_name)
 mlflow.set_registry_uri('databricks-uc')
 
 # COMMAND ----------
