@@ -1,0 +1,30 @@
+bundle:
+  name: mlops_demo
+
+variables:
+  experiment_name:
+    description: Experiment name for the model training.
+    default: /Users/${workspace.current_user.userName}/${bundle.target}_expirement
+  model_name:
+    description: Model name for the model training.
+    default: propensity
+  predictions_table_name:
+    description: Output table name.
+    default: predictions
+
+include:
+  - ./resources/*.yml
+
+targets:
+  pl_mlops_demo_dev:
+    default: true
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
+  pl_mlops_demo_staging:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
+
+  pl_mlops_demo_prod:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
