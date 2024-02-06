@@ -1,9 +1,9 @@
 resources:
   jobs:
-    feature_engineering_job:
-      name: ${bundle.target}-feature-engineering-job
+    training_job:
+      name: ${bundle.target}-training-job
       tasks:
-        - task_key: feature_engineering_job
+        - task_key: training_job
           new_cluster:
             num_workers: 3
             spark_version: 13.3.x-cpu-ml-scala2.12
@@ -11,14 +11,17 @@ resources:
             custom_tags:
               clusterSource: mlops-stack/0.2
           notebook_task:
-            notebook_path: ../feature_engineering/notebooks/feature_engineering.py
+            notebook_path: ../training/notebooks/training.py
             base_parameters:
               input_data_catalog: pl_mlops_demo_prod
               input_data_schema: mlops_demo
               features_catalog: ${bundle.target}
               features_schema: mlops_demo
+              experiment_name: ${var.experiment_name}
+              model_name: ${bundle.target}.mlops_demo.${var.model_name}
+              commodity: EGGS
       schedule:
-        quartz_cron_expression: "0 0 10 * * ?"
+        quartz_cron_expression: "0 0 11 * * ?"
         timezone_id: UTC
       permissions:
         - level: CAN_VIEW

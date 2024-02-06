@@ -1,9 +1,9 @@
 resources:
   jobs:
-    batch_inference_job:
-      name: ${bundle.target}-mlops_demo-batch-inference-job
+    inference_job:
+      name: ${bundle.target}-inference-job
       tasks:
-        - task_key: batch_inference_job
+        - task_key: inference_job
           new_cluster:
             num_workers: 3
             spark_version: 13.3.x-cpu-ml-scala2.12
@@ -11,16 +11,17 @@ resources:
             custom_tags:
               clusterSource: mlops-stack/0.2
           notebook_task:
-            notebook_path: ../deployment/batch_inference/notebooks/BatchInference.py
+            notebook_path: ../inference/notebooks/inference.py
             base_parameters:
-              env: ${bundle.target}
-              input_table_name: ${bundle.target}.mlops_demo.feature_store_inference_input
-              output_table_name: ${bundle.target}.mlops_demo.predictions
+              input_data_catalog: pl_mlops_demo_prod
+              input_data_schema: mlops_demo
+              features_catalog: ${bundle.target}
+              features_schema: mlops_demo
               model_name: ${bundle.target}.mlops_demo.${var.model_name}
-              git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
-
+              predictions_table_name: ${bundle.target}.mlops_demo.${var.predictions_table_name}
+              commodity: EGGS
       schedule:
-        quartz_cron_expression: "0 0 11 * * ?"
+        quartz_cron_expression: "0 0 12 * * ?"
         timezone_id: UTC
       permissions:
         - level: CAN_VIEW
