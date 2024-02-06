@@ -1,0 +1,8 @@
+resources:
+  experiments:
+    experiment:
+      name: ${var.experiment_name}
+      permissions:
+        - level: CAN_READ
+          group_name: users
+      description: MLflow Experiment used to track runs for pl_mlop_demo project.
