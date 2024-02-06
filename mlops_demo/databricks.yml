@@ -21,7 +21,7 @@ targets:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-  pl_mlops_demo_staging:
+  pl_mlops_demo_test:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
