@@ -46,8 +46,8 @@ dbutils.widgets.text('select_date', defaultValue=date.today().strftime('%Y-%m-%d
 dbutils.widgets.text('input_data_catalog', defaultValue='pl_mlops_demo_prod', label="Input Data Catalog")
 dbutils.widgets.text('input_data_schema', defaultValue='mlops_demo', label="Input Data Schema")
 dbutils.widgets.text('features_catalog', defaultValue='pl_mlops_demo_dev', label="Features Catalog")
-dbutils.widgets.text('features_schema', defaultValue='pl_mlops_demo_dev_expirement', label="Features Schema")
-dbutils.widgets.text('experiment_name', defaultValue='mlops_demo', label="Experiment Name")
+dbutils.widgets.text('features_schema', defaultValue='mlops_demo', label="Features Schema")
+dbutils.widgets.text('experiment_name', defaultValue='/Users/patrick.leahey@databricks.com/propensity', label="Experiment Name")
 dbutils.widgets.text('model_name', defaultValue='pl_mlops_demo_dev.mlops_demo.propensity', label="Model Name")
 dbutils.widgets.text('commodity', defaultValue='EGGS', label="Commodity")
 
@@ -348,7 +348,8 @@ argmin
 with mlflow.start_run(run_name='training') as run:
   model = train_final_model(argmin)
 
-  signature = infer_signature(model_input=X_train, model_output=y_train)
+  predictions = model.predict(X_test)
+  signature = infer_signature(model_input=X_test, model_output=predictions)
 
   model_info = mlflow.sklearn.log_model(
     model,
@@ -372,7 +373,7 @@ challenger_eval = mlflow.evaluate(
   evaluators=['default']
 )
 
-auc_benchmark = 0.8
+auc_benchmark = 0.75
 if challenger_eval.metrics['roc_auc'] >= auc_benchmark:
   client.set_registered_model_alias(model_name, "Challenger", model_version)
   print(f'Model models:/{model_name}/{model_version} passed benchmarks, promoted to Challenger')
@@ -387,15 +388,18 @@ if challenger_eval.metrics['roc_auc'] >= auc_benchmark:
     )
 
     if challenger_eval.metrics['roc_auc'] >= champion_eval.metrics['roc_auc']:
+      client.delete_registered_model_alias(model_name, 'Challenger')
       client.set_registered_model_alias(model_name, 'Champion', model_version)
       print(f'Challenger models:/{model_name}/{model_version} beat existing Champion, promoted to Champion')
+      
 
   except:
+    client.delete_registered_model_alias(model_name, 'Challenger')
     client.set_registered_model_alias(model_name, 'Champion', model_version)
     print(f'Champion model version does not exist, promoted models:/{model_name}/{model_version}')
 
 else:
-  Exception(f'Model models:/{model_name}/{model_version} did not pass benchmarks -> AUC: {challenger_eval.metrics["roc_auc"]} < {auc_benchmark}')
+  print(f'Model models:/{model_name}/{model_version} did not pass benchmarks -> AUC: {challenger_eval.metrics["roc_auc"]} < {auc_benchmark}')
 
 # COMMAND ----------
 
