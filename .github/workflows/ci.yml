@@ -53,18 +53,18 @@ jobs:
           DATABRICKS_TOKEN: ${{ env.TEST_DATABRICKS_TOKEN }}
         run: |
           databricks bundle deploy -t pl_mlops_demo_test
-      - name: Run Feature Engineering Workflow
-        id: feature_engineering
-        env:
-          DATABRICKS_TOKEN: ${{ env.TEST_DATABRICKS_TOKEN }}
-        run: |
-          databricks bundle run feature_engineering_job -t pl_mlops_demo_test
       - name: Run Training Workflow
         id: training
         env:
           DATABRICKS_TOKEN: ${{ env.TEST_DATABRICKS_TOKEN }}
         run: |
           databricks bundle run training_job -t pl_mlops_demo_test
+      - name: Run Inference Workflow
+        id: inference
+        env:
+          DATABRICKS_TOKEN: ${{ env.TEST_DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle run inference_job -t pl_mlops_demo_test
 
   prod_validation:
     needs: integration_tests
