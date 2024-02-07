@@ -1,0 +1,50 @@
+resources:
+  jobs:
+    inference_job:
+      name: ${bundle.target}_inference_job
+      job_clusters:
+        - job_cluster_key: inference_job_cluster
+          new_cluster:
+            num_workers: 3
+            spark_version: 13.3.x-cpu-ml-scala2.12
+            node_type_id: Standard_D3_v2
+            custom_tags:
+              clusterSource: mlops-stack/0.2
+      tasks:
+        - task_key: feature_engineering
+          job_cluster_key: inference_job_cluster
+          notebook_task:
+            notebook_path: ../feature_engineering/notebooks/feature_engineering.py
+            base_parameters:
+              select_date: 2019-10-31
+              input_data_catalog: pl_mlops_demo_prod
+              input_data_schema: mlops_demo
+              features_catalog: ${bundle.target}
+              features_schema: mlops_demo
+        - task_key: inference
+          depends_on:
+            - task_key: feature_engineering
+          job_cluster_key: inference_job_cluster
+          notebook_task:
+            notebook_path: ../inference/notebooks/inference.py
+            base_parameters:
+              select_date: 2019-10-31
+              input_data_catalog: pl_mlops_demo_prod
+              input_data_schema: mlops_demo
+              features_catalog: ${bundle.target}
+              features_schema: mlops_demo
+              model_name: ${bundle.target}.mlops_demo.${var.model_name}
+              predictions_table_name: ${bundle.target}.mlops_demo.${var.predictions_table_name}
+              commodity: EGGS
+      schedule:
+        quartz_cron_expression: "0 0 11 * * ?"
+        timezone_id: UTC
+      permissions:
+        - level: CAN_VIEW
+          group_name: users
+      email_notifications:
+        on_failure:
+          - patrick.leahey@databricks.com
+      permissions:
+        - level: CAN_VIEW
+          group_name: users

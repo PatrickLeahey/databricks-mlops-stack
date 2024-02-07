@@ -15,7 +15,6 @@ env:
 
 jobs:
   prod:
-    concurrency: mlops_demo-prod-bundle-job
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -23,16 +22,16 @@ jobs:
       - name: Validate
         id: validate
         run: |
-          databricks bundle validate -t mlops_demo_prod
+          databricks bundle validate -t pl_mlops_demo_prod
       - name: Deploy
         id: deploy
         run: |
-          databricks bundle deploy -t mlops_demo_prod
-      - name: Run Feature Engineering Workflow
-        id: feature_engineering
-        run: |
-          databricks bundle run write_feature_table_job -t mlops_demo_prod
+          databricks bundle deploy -t pl_mlops_demo_prod
       - name: Run Training Workflow
         id: training
         run: |
-          databricks bundle run model_training_job -t mlops_demo_prod
+          databricks bundle run training_job -t pl_mlops_demo_prod
+      - name: Inference Workflow
+        id: inference
+        run: |
+          databricks bundle run inference_job -t pl_mlops_demo_prod
