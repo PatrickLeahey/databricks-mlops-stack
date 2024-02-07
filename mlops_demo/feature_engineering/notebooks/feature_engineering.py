@@ -40,7 +40,7 @@ dbutils.widgets.text('features_schema', defaultValue='mlops_demo', label="Featur
 # COMMAND ----------
 
 # DBTITLE 1,Get Widget Values
-select_date = dbutils.widgets.get('select_date')
+select_date = '2019-10-01' # select_date = dbutils.widgets.get('select_date')
 input_data_catalog = dbutils.widgets.get('input_data_catalog')
 input_data_schema = dbutils.widgets.get('input_data_schema')
 features_catalog = dbutils.widgets.get('features_catalog')

@@ -14,6 +14,7 @@
 # DBTITLE 1,Import Required Libraries
 import mlflow
 from mlflow.tracking import MlflowClient
+from mlflow.models import infer_signature
 
 from hyperopt import hp, fmin, tpe, SparkTrials, STATUS_OK, space_eval
 
@@ -53,7 +54,7 @@ dbutils.widgets.text('commodity', defaultValue='EGGS', label="Commodity")
 # COMMAND ----------
 
 # DBTITLE 1,Get Widget Values
-select_date = dbutils.widgets.get('select_date')
+select_date = '2019-10-31' # select_date = dbutils.widgets.get('select_date')
 input_data_catalog = dbutils.widgets.get('input_data_catalog')
 input_data_schema = dbutils.widgets.get('input_data_schema')
 features_catalog = dbutils.widgets.get('features_catalog')
@@ -137,7 +138,7 @@ labels = (
       on=['household_key'], 
       how='leftouter'
       )
-    .withColumn('select_date', fn.lit(select_date)) # day for linking to features
+    .withColumn('select_date', fn.lit(features_end_day))
     .withColumn('purchased', fn.expr("coalesce(purchased, 0)"))
     .withColumn('commodity_desc', fn.lit('EGGS'))
     .orderBy('household_key')
@@ -259,26 +260,8 @@ def train_final_model (hyperopt_params):
   
   # train
   model.fit(X_train_validate, y_train_validate)
-  
-  # predict
-  y_pred = model.predict(X_test)
-  y_prob = model.predict_proba(X_test)
-  
-  # eval metrics
-  model_ap = average_precision_score(y_test, y_prob[:,1])
-  model_ba = balanced_accuracy_score(y_test, y_pred)
-  model_mc = matthews_corrcoef(y_test, y_pred)
 
-  scores = {
-    'avg precision':model_ap,
-    'balanced_accuracy':model_ba,
-    'matthews corrcoef':model_mc
-    }
-  
-  # log metrics with mlflow run
-  mlflow.log_metrics(scores)
-
-  return model, scores
+  return model
 
 # COMMAND ----------
 
@@ -290,6 +273,15 @@ def train_final_model (hyperopt_params):
 
 mlflow.set_experiment(experiment_name)
 mlflow.set_registry_uri('databricks-uc')
+client = MlflowClient(registry_uri="databricks-uc")
+
+def get_latest_model_version(model_name):
+  latest_version = 1
+  for mv in client.search_model_versions(f"name='{model_name}'"):
+      version_int = int(mv.version)
+      if version_int > latest_version:
+          latest_version = version_int
+  return latest_version
 
 # COMMAND ----------
 
@@ -320,6 +312,8 @@ y_train_broadcast = sc.broadcast(y_train)
 X_validate_broadcast = sc.broadcast(X_validate)
 y_validate_broadcast = sc.broadcast(y_validate)
 
+# COMMAND ----------
+
 search_space = {
   'max_depth' : hp.quniform('max_depth', 5, 20, 1),
   'learning_rate' : hp.uniform('learning_rate', 0.01, 0.40)
@@ -345,32 +339,64 @@ with mlflow.start_run(run_name='tuning'):
     trials=SparkTrials(parallelism=sc.defaultParallelism)
   )
 
-with mlflow.start_run(run_name='training'):
-  model, scores = train_final_model(argmin)
-  model_info = fs.log_model(
+# COMMAND ----------
+
+argmin
+
+# COMMAND ----------
+
+with mlflow.start_run(run_name='training') as run:
+  model = train_final_model(argmin)
+
+  signature = infer_signature(model_input=X_train, model_output=y_train)
+
+  model_info = mlflow.sklearn.log_model(
     model,
     artifact_path='model',
-    flavor=mlflow.sklearn,
-    training_set=training_set,
     registered_model_name=model_name,
-    **{
-      'pyfunc_predict_fn':'predict_proba',
-      'pip_requirements':['xgboost']
-      }
+    signature=signature
   )
 
-# COMMAND ----------
-
-def get_latest_model_version(model_name):
-  latest_version = 1
-  mlflow_client = MlflowClient(registry_uri="databricks-uc")
-  for mv in mlflow_client.search_model_versions(f"name='{model_name}'"):
-      version_int = int(mv.version)
-      if version_int > latest_version:
-          latest_version = version_int
-  return latest_version
+  model_version = get_latest_model_version(model_name)
 
 # COMMAND ----------
 
-client = MlflowClient(registry_uri="databricks-uc")
-client.set_registered_model_alias(model_name, "Champion", get_latest_model_version(model_name))
+eval_data = X_test
+eval_data['target'] = y_test
+
+challenger_eval = mlflow.evaluate(
+  model_info.model_uri,
+  eval_data,
+  targets='target',
+  model_type='classifier',
+  evaluators=['default']
+)
+
+auc_benchmark = 0.8
+if challenger_eval.metrics['roc_auc'] >= auc_benchmark:
+  client.set_registered_model_alias(model_name, "Challenger", model_version)
+  print(f'Model models:/{model_name}/{model_version} passed benchmarks, promoted to Challenger')
+
+  try:
+    champion_eval = mlflow.evaluate(
+      f'models:/{model_name}@Champion',
+      eval_data,
+      targets='target',
+      model_type='classifier',
+      evaluators=['default']
+    )
+
+    if challenger_eval.metrics['roc_auc'] >= champion_eval.metrics['roc_auc']:
+      client.set_registered_model_alias(model_name, 'Champion', model_version)
+      print(f'Challenger models:/{model_name}/{model_version} beat existing Champion, promoted to Champion')
+
+  except:
+    client.set_registered_model_alias(model_name, 'Champion', model_version)
+    print(f'Champion model version does not exist, promoted models:/{model_name}/{model_version}')
+
+else:
+  Exception(f'Model models:/{model_name}/{model_version} did not pass benchmarks -> AUC: {challenger_eval.metrics["roc_auc"]} < {auc_benchmark}')
+
+# COMMAND ----------
+
+challenger_eval.metrics
