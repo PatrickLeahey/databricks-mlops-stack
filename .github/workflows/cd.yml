@@ -27,11 +27,11 @@ jobs:
         id: deploy
         run: |
           databricks bundle deploy -t pl_mlops_demo_prod
-      - name: Run Feature Engineering Workflow
-        id: feature_engineering
-        run: |
-          databricks bundle run feature_engineering_job -t pl_mlops_demo_prod
       - name: Run Training Workflow
         id: training
         run: |
           databricks bundle run training_job -t pl_mlops_demo_prod
+      - name: Inference Workflow
+        id: inference
+        run: |
+          databricks bundle run inference_job -t pl_mlops_demo_prod
