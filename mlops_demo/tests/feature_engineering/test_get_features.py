@@ -19,8 +19,8 @@ def spark(request):
 def transactional_data(spark):
     """Creates a DataFrame representing transactional data for testing."""
     data = [
-        (1, 1, 1, 1, "2023-01-01", 1200, 1, 10.0, 0.5, 0.0, 0.5, 0.5, 0.5, 9.5, 1, 1, "DEPARTMENT_A", "BRAND_A", "Commodity_A", "Sub_Commodity_A", "Size_A"),
-        (2, 2, 2, 2, "2023-01-02", 1300, 2, 15.0, 0.0, 1.0, 0.0, 1.0, 1.0, 14.0, 2, 2, "DEPARTMENT_B", "BRAND_B", "Commodity_B", "Sub_Commodity_B", "Size_B"),
+        (1, 1, 1, 1, datetime.strptime("2023-01-01", "%Y-%m-%d"), 1200, 1, 10.0, 0.5, 0.0, 0.5, 0.5, 0.5, 9.5, 1, 1, "DEPARTMENT_A", "BRAND_A", "Commodity_A", "Sub_Commodity_A", "Size_A"),
+        (2, 2, 2, 2, datetime.strptime("2023-01-02", "%Y-%m-%d"), 1300, 2, 15.0, 0.0, 1.0, 0.0, 1.0, 1.0, 14.0, 2, 2, "DEPARTMENT_B", "BRAND_B", "Commodity_B", "Sub_Commodity_B", "Size_B"),
     ]
     schema = StructType([
         StructField("product_id", IntegerType(), True),
