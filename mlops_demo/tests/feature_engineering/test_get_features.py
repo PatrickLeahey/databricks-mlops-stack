@@ -52,7 +52,7 @@ def transactional_data(spark):
     (["commodity_desc"], "60d"),
     (["household_key", "commodity_desc"], "90d")
 ])
-def test_get_features_window_period(spark, transactional_data, grouping_keys, window, expected_days):
+def test_get_features_window_period(spark, transactional_data, grouping_keys, window):
     result_df = get_features(transactional_data, grouping_keys, window)
     
     # Check if DataFrame is not empty
