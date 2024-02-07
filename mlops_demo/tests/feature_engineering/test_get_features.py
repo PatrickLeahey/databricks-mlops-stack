@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
-from pyspark.sql.types import StringType, DoubleType, IntegerType
+from pyspark.sql.types import StructType, StructField, IntegerType, LongType, DateType, DoubleType, StringType
 
 # Assuming your get_features function is located in a module named feature_engineering.py
 from mlops_demo.feature_engineering.modules.get_features import get_features
@@ -19,13 +19,33 @@ def spark(request):
 def transactional_data(spark):
     """Creates a DataFrame representing transactional data for testing."""
     data = [
-        ("2023-01-01", "household_1", "Commodity_A", "basket_1", "product_1", 10, 1, 0.5, 0, 0.5, 9.5),
-        ("2023-01-02", "household_2", "Commodity_B", "basket_2", "product_2", 15, 2, 0, 1, 0, 14),
-        # Add more rows as necessary to cover test scenarios
+        (1, 1, 1, 1, "2023-01-01", 1200, 1, 10.0, 0.5, 0.0, 0.5, 0.5, 0.5, 9.5, 1, 1, "DEPARTMENT_A", "BRAND_A", "Commodity_A", "Sub_Commodity_A", "Size_A"),
+        (2, 2, 2, 2, "2023-01-02", 1300, 2, 15.0, 0.0, 1.0, 0.0, 1.0, 1.0, 14.0, 2, 2, "DEPARTMENT_B", "BRAND_B", "Commodity_B", "Sub_Commodity_B", "Size_B"),
     ]
-    schema = ["day", "household_key", "commodity_desc", "basket_id", "product_id", "amount_list", "instore_discount",
-              "campaign_coupon_discount", "manuf_coupon_discount", "total_coupon_discount", "amount_paid"]
-    return spark.createDataFrame(data, schema=schema)
+    schema = StructType([
+        StructField("product_id", IntegerType(), True),
+        StructField("household_key", IntegerType(), True),
+        StructField("basket_id", LongType(), True),
+        StructField("week_no", IntegerType(), True),
+        StructField("day", DateType(), True),
+        StructField("trans_time", IntegerType(), True),
+        StructField("store_id", IntegerType(), True),
+        StructField("amount_list", DoubleType(), True),
+        StructField("campaign_coupon_discount", DoubleType(), True),
+        StructField("manuf_coupon_discount", DoubleType(), True),
+        StructField("manuf_coupon_match_discount", DoubleType(), True),
+        StructField("total_coupon_discount", DoubleType(), True),
+        StructField("instore_discount", DoubleType(), True),
+        StructField("amount_paid", DoubleType(), True),
+        StructField("units", IntegerType(), True),
+        StructField("MANUFACTURER", IntegerType(), True),
+        StructField("DEPARTMENT", StringType(), True),
+        StructField("BRAND", StringType(), True),
+        StructField("COMMODITY_DESC", StringType(), True),
+        StructField("SUB_COMMODITY_DESC", StringType(), True),
+        StructField("CURR_SIZE_OF_PRODUCT", StringType(), True),
+    ])
+    return spark.createDataFrame(data, schema)
 
 @pytest.mark.parametrize("grouping_keys, window, expected_days", [
     (["household_key"], "30d", 30),
