@@ -391,7 +391,6 @@ if challenger_eval.metrics['roc_auc'] >= auc_benchmark:
       client.delete_registered_model_alias(model_name, 'Challenger')
       client.set_registered_model_alias(model_name, 'Champion', model_version)
       print(f'Challenger models:/{model_name}/{model_version} beat existing Champion, promoted to Champion')
-      
 
   except:
     client.delete_registered_model_alias(model_name, 'Challenger')

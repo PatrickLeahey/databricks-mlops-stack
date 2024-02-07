@@ -57,3 +57,5 @@ def test_get_features_window_period(spark, transactional_data, grouping_keys, wi
     
     # Check if DataFrame is not empty
     assert result_df.count() > 0
+
+    
