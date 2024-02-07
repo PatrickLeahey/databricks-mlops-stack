@@ -6,7 +6,7 @@ from pyspark.sql.functions import col
 from pyspark.sql.types import StringType, DoubleType, IntegerType
 
 # Assuming your get_features function is located in a module named feature_engineering.py
-from mlops_demo.feature_engineering.notebooks.feature_engineering import get_features
+from mlops_demo.feature_engineering.modules.get_features import get_features
 
 @pytest.fixture(scope="session")
 def spark(request):
