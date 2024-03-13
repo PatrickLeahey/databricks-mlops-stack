@@ -1,12 +1,4 @@
 # Databricks notebook source
-# MAGIC %pip install -r ../../requirements.txt
-
-# COMMAND ----------
-
-dbutils.library.restartPython()
-
-# COMMAND ----------
-
 from datetime import datetime, date
 
 import mlflow
