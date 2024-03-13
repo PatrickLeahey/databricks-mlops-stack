@@ -296,23 +296,17 @@ fs = FeatureStoreClient()
 try: # if feature store does not exist
   fs.get_table(f'{features_path}.household_commodity_features')
 except: # create it now
-  pass
-  _ = (
-    fs
-      .create_table(
-        name=f'{features_path}.household_commodity_features', # name of feature store table
-        primary_keys= grouping_keys + ['select_date'], # name of keys that will be used to locate records
-        schema=household_commodity_features.schema, # schema of feature set as derived from our feature_set dataframe
-        description='household-commodity features used for propensity scoring' 
-      )
-    )
+  fs.create_table(
+    name=f'{features_path}.household_commodity_features', # name of feature store table
+    primary_keys= grouping_keys + ['select_date'], # name of keys that will be used to locate records
+    schema=household_commodity_features.schema, # schema of feature set as derived from our feature_set dataframe
+    description='household-commodity features used for propensity scoring' 
+  )
 
 # merge feature set data into feature store
-_ = (
-  fs
-    .write_table(
-      name=f'{features_path}.household_commodity_features',
-      df = household_commodity_features,
-      mode = 'merge' # merge data into existing feature set, instead of 'overwrite'
-    )
-  )
+
+fs.write_table(
+  name=f'{features_path}.household_commodity_features',
+  df = household_commodity_features,
+  mode = 'merge' # merge data into existing feature set, instead of 'overwrite'
+)
