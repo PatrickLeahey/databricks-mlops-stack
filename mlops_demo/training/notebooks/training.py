@@ -12,6 +12,8 @@
 # COMMAND ----------
 
 # DBTITLE 1,Import Required Libraries
+# imports
+
 import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.models import infer_signature
@@ -373,7 +375,7 @@ challenger_eval = mlflow.evaluate(
   evaluators=['default']
 )
 
-auc_benchmark = 0.75
+auc_benchmark = 0.8
 if challenger_eval.metrics['roc_auc'] >= auc_benchmark:
   client.set_registered_model_alias(model_name, "Challenger", model_version)
   print(f'Model models:/{model_name}/{model_version} passed benchmarks, promoted to Challenger')
